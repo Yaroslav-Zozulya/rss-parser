@@ -1,0 +1,19 @@
+{
+  "name": "rss-parser",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "Zozulya Yaroslav",
+  "license": "MIT",
+  "devDependencies": {
+    "turbo": "^1.8.2"
+  },
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "start": "turbo run start"
+  },
+  "workspaces": [
+    "apps/*"
+  ]
+}
