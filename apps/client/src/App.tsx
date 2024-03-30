@@ -1,21 +1,19 @@
-import reactLogo from "./assets/react.svg";
+import { FC, lazy } from "react";
 import "./App.css";
+import { Route, Routes } from "react-router-dom";
+import { Layout } from "./compoments/Layout/Layout";
 
-const App = () => {
+const Home = lazy(() => import("./pages/Home/Home"));
+const Admin = lazy(() => import("./pages/Admin/Admin"));
+
+const App: FC = () => {
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Home />} />
+        <Route path="/admin" element={<Admin />} />
+      </Route>
+    </Routes>
   );
 };
 
