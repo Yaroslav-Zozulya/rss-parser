@@ -27,8 +27,8 @@ Monorepo created by turbo.js
 - production mode - `npm start`
 
 ###Links in project
-[http://localhost:5173/](http://localhost:5173/) - user part
-[http://localhost:5173/](http://localhost:5173/) - admin panel
-[http://localhost:YOUR_PORT/](http://localhost:YOUR_PORT/) - server
+- [http://localhost:5173/](http://localhost:5173/) - user part
+- [http://localhost:5173/](http://localhost:5173/) - admin panel
+- [http://localhost:YOUR_PORT/](http://localhost:YOUR_PORT/) - server
 
 
