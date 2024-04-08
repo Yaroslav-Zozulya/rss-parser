@@ -123,7 +123,6 @@ export class ArticlesService implements OnModuleInit {
       if (newArticles.length) {
         await this.articleRepository.insertMany(newArticles);
       }
-      // await this.articleRepository.deleteMany();
     } catch (error) {
       console.log(error.message);
     }

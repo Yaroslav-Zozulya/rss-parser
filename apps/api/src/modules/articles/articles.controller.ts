@@ -12,7 +12,6 @@ import {
 import { ArticlesService } from './articles.service';
 import { CreateArticleDto } from './dto/createArticle.dto';
 import { JwtAuthGuard } from 'src/modules/auth/jwt-auth.guard';
-// import { ValidationPipe } from 'src/pipes/ValidationPipe.pipe';
 
 @Controller('articles')
 export class ArticlesController {
@@ -29,14 +28,12 @@ export class ArticlesController {
   }
 
   @UseGuards(JwtAuthGuard)
-  // @UsePipes(ValidationPipe)
   @Post()
   add(@Body() articleDto: CreateArticleDto) {
     return this.articlesService.createArticle(articleDto);
   }
 
   @UseGuards(JwtAuthGuard)
-  // @UsePipes(ValidationPipe)
   @Put('/:id')
   update(@Body() articleDto: CreateArticleDto, @Param('id') id: string) {
     return this.articlesService.updateArticleById(id, articleDto);

@@ -51,13 +51,15 @@ export const AdminPanel: FC = () => {
         onSubmit={onSubmit}
         handleDelete={handleDelete}
       />
-      <PaginationBox
-        totalPages={data?.pagination.totalPages}
-        page={page}
-        handlePageChange={handlePageChange}
-      />
+      {data?.pagination.totalPages > 1 && (
+        <PaginationBox
+          totalPages={data?.pagination.totalPages}
+          page={page}
+          handlePageChange={handlePageChange}
+        />
+      )}
       {isLoading && <h3>Loading...</h3>}
-      {isLoading && <h3>Something is wrong. Please try again</h3>}
+      {isError && <h3>Something is wrong. Please try again</h3>}
     </Box>
   );
 };
