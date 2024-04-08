@@ -76,4 +76,8 @@ export class AuthService {
 
     return user;
   }
+
+  async verifyToken() {
+    return true;
+  }
 }

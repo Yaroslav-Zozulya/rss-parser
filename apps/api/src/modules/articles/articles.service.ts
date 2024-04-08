@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Cron } from '@nestjs/schedule';
-import { Model, isValidObjectId } from 'mongoose';
+import { Model, SortOrder, isValidObjectId } from 'mongoose';
 import axios from 'axios';
 import * as Parser from 'rss-parser';
 import { Article } from 'src/schemas/article.schema';
@@ -24,8 +24,32 @@ export class ArticlesService implements OnModuleInit {
     await this.addNewArticlesFromRss();
   }
 
-  async getAll() {
-    return await this.articleRepository.find();
+  async getAll(page, limit, sortOrder: SortOrder, title) {
+    const skip = (page - 1) * limit;
+    1;
+    let search = {};
+    if (title) {
+      search = { title: { $regex: new RegExp(title, 'i') } };
+    }
+
+    const articles = await this.articleRepository
+      .find(search, '-createdAt -updatedAt', {
+        skip,
+        limit,
+      })
+      .sort({ pubDate: sortOrder });
+
+    const response = await this.articleRepository.find(
+      search,
+      '-createdAt -updatedAt',
+    );
+
+    const totalPages = Math.ceil(response.length / limit);
+
+    return {
+      articles,
+      pagination: { totalArticles: response.length, limit, totalPages },
+    };
   }
 
   async createArticle(articleDto: CreateArticleDto) {
@@ -64,7 +88,6 @@ export class ArticlesService implements OnModuleInit {
 
   @Cron(process.env.UPDATE_FEEDS_TIME)
   private async addNewArticlesFromRss() {
-    console.log('second');
     try {
       const xmlArticles = await axios.get(process.env.RSS_FEED_LINK);
       const xmlArticlesParsed = await parser.parseString(xmlArticles.data);
@@ -78,9 +101,14 @@ export class ArticlesService implements OnModuleInit {
         }),
       );
 
-      const lastPublishedArticle = await this.articleRepository
-        .findOne()
-        .sort({ pubDate: -1 });
+      const lastPublishedId = await this.articleRepository.findOne(
+        {},
+        { sort: { pubDate: -1 } },
+      );
+
+      const lastPublishedArticle = await this.articleRepository.findOne({
+        _id: lastPublishedId,
+      });
 
       if (!lastPublishedArticle) {
         await this.articleRepository.insertMany(articles);
@@ -88,9 +116,9 @@ export class ArticlesService implements OnModuleInit {
 
       const oldestDateISO = new Date(lastPublishedArticle.pubDate).getTime();
 
-      const newArticles = articles.filter(
-        (item) => new Date(item.pubDate).getTime() > oldestDateISO,
-      );
+      const newArticles = articles.filter((item) => {
+        return new Date(item.pubDate).getTime() > oldestDateISO;
+      });
 
       if (newArticles.length) {
         await this.articleRepository.insertMany(newArticles);

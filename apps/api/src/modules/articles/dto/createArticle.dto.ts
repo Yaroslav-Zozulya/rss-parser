@@ -1,6 +1,7 @@
 import { Transform, TransformFnParams } from 'class-transformer';
 import {
   ArrayMinSize,
+  IsArray,
   IsNotEmpty,
   IsString,
   IsUrl,
@@ -28,12 +29,7 @@ export class CreateArticleDto {
   link: string;
 
   @Transform(({ value }: TransformFnParams) =>
-    value.filter((item) => {
-      if (typeof item === 'string') {
-        return item.trim() !== '';
-      }
-      return true;
-    }),
+    value.split(',').map((item) => item.trim()),
   )
   @ArrayMinSize(1, { message: 'categories must not be empty' })
   @IsString({ each: true, message: 'categories must be an array of strings' })

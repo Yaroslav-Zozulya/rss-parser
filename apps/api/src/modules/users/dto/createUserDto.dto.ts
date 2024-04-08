@@ -14,5 +14,5 @@ export class CreateUserDto {
   @IsIn(['admin', 'moderator'], {
     message: 'role must be a string with value "admin" or "moderator"',
   })
-  readonly role?: 'admin' | 'moderator';
+  readonly role?: 'admin' | 'moderator' = 'moderator';
 }

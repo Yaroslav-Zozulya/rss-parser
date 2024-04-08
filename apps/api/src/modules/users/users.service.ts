@@ -38,7 +38,7 @@ export class UsersService {
   }
 
   async checkAdminUser() {
-    const adminUser = this.userRepository.findOne({ role: 'admin' });
+    const adminUser = await this.userRepository.findOne({ role: 'admin' });
     return adminUser ? true : false;
   }
 }

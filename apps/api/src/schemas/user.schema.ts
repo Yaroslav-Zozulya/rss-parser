@@ -15,7 +15,7 @@ export class User {
   token: string;
 
   @Prop({ default: 'moderator', enum: ['admin', 'moderator'] })
-  role: string;
+  role?: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

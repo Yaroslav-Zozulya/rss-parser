@@ -1,33 +1,50 @@
-import { FC, useState, useEffect } from "react";
-import axios from "axios";
+import { FC, useState } from "react";
+import { SearchForm } from "./SearchForm/SearchForm";
+import { Container } from "@mui/material";
+import { useQuery } from "react-query";
+import { articlesAPI } from "../../services/articlesAPI";
+import { PaginationBox } from "../Admin/components/PaginationBox/PaginationBox";
+import { NewsList } from "./NewsList/NewsList";
 
 const Home: FC = () => {
-  const [articles, setArticles] = useState(null);
+  const [page, setPage] = useState(1);
+  const [sortMod, setSortMod] = useState("desc");
+  const [SearchQuery, setSearchQuery] = useState("");
 
-  useEffect(() => {
-    const getArticles = async () => {
-      const res = await axios.get("http://localhost:5000/api/articles");
+  const { data, isLoading, isError } = useQuery(
+    ["articles", page, sortMod, SearchQuery],
+    () => articlesAPI.getAll(page, sortMod, SearchQuery),
+    {
+      keepPreviousData: true,
+      refetchOnWindowFocus: false,
+    }
+  );
 
-      setArticles(res.data);
-    };
-    getArticles();
-  }, [setArticles]);
-
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    page: number
+  ) => {
+    setPage(page);
+  };
   return (
     <>
-      <p>Home</p>
-      <ul>
-        {articles &&
-          articles.map(({ link, title, contentSnippet }, idx) => (
-            <li key={idx}>
-              <a href={link} target="_blank">
-                <h3>{title}</h3>
-                <p>{contentSnippet}</p>
-              </a>
-              <hr />
-            </li>
-          ))}
-      </ul>
+      <Container sx={{ padding: "24px", backgroundColor: "#a4daf0" }}>
+        <SearchForm
+          setSearchQuery={setSearchQuery}
+          setSortMod={setSortMod}
+          sortMod={sortMod}
+          isLoading={isLoading}
+        />
+        {isError && <h3>Something is wrong. Please try again</h3>}
+        {data && <NewsList data={data.articles} />}
+        {data?.pagination?.totalPages > 1 && (
+          <PaginationBox
+            totalPages={data.pagination.totalPages}
+            page={page}
+            handlePageChange={handlePageChange}
+          />
+        )}
+      </Container>
     </>
   );
 };

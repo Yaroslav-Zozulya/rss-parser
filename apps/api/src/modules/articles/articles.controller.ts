@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { ArticlesService } from './articles.service';
@@ -18,8 +19,13 @@ export class ArticlesController {
   constructor(private articlesService: ArticlesService) {}
 
   @Get()
-  getAll() {
-    return this.articlesService.getAll();
+  getAll(
+    @Query('limit') limit = 10,
+    @Query('page') page = 1,
+    @Query('pubDate') sortOrder: 'asc' | 'desc' = 'asc',
+    @Query('title') title = '',
+  ) {
+    return this.articlesService.getAll(page, limit, sortOrder, title);
   }
 
   @UseGuards(JwtAuthGuard)
