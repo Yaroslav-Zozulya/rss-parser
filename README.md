@@ -19,9 +19,10 @@ Monorepo created by turbo.js
 - MongoDB
 - REST
 - JWT
+- RSS - https://techcrunch.com/feed/
 
 ## Instalation
-- configure .env
+- configure createfile  .development.env and config them. Example here -> apps/api/ [example](https://github.com/Yaroslav-Zozulya/rss-parser/blob/main/apps/api/.env.example)
 - instal packages -  `npm i`
 - development mode - `npm run dev`
 - production mode - `npm start`
