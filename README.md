@@ -28,7 +28,7 @@ Monorepo created by turbo.js
 
 ###Links in project
 - [http://localhost:5173/](http://localhost:5173/) - user part
-- [http://localhost:5173/](http://localhost:5173/) - admin panel
+- [http://localhost:5173/admin](http://localhost:5173/admin) - admin panel
 - [http://localhost:YOUR_PORT/](http://localhost:YOUR_PORT/) - server
 
 
