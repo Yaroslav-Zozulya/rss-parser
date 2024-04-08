@@ -21,7 +21,7 @@ Monorepo created by turbo.js
 - JWT
 
 ## Instalation
-- configure createfile  .development.env and config them. Example here -> apps/api/ [example]([http://localhost:5173/admin](https://github.com/Yaroslav-Zozulya/rss-parser/blob/main/apps/api/.env.example))
+- configure createfile  .development.env and config them. Example here -> apps/api/ [example](http://localhost:5173/admin](https://github.com/Yaroslav-Zozulya/rss-parser/blob/main/apps/api/.env.example))
 - instal packages -  `npm i`
 - development mode - `npm run dev`
 - production mode - `npm start`
